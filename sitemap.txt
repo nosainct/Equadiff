@@ -1,0 +1,10 @@
+src/
+components/
+    EquationInput.js
+    ParameterInput.js
+    Visualization.js
+    ControlPanel.js
+    UserFeedback.js
+app/
+    layout.js
+    page.js

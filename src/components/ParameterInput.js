@@ -3,11 +3,11 @@
 import { useState } from "react"
 
 export default function ParameterInput({ onParametersChange }) {
-  const [order, setOrder] = useState("first") // Premier ou second ordre
+  const [order, setOrder] = useState("first")
   const [initialCondition, setInitialCondition] = useState("")
   const [secondInitialCondition, setSecondInitialCondition] = useState("")
   const [variableName, setVariableName] = useState("y")
-  const [timeRange, setTimeRange] = useState({ start: 0, end: 10 })
+  const [variables, setVariables] = useState([{ name: "", value: "" }])
   const [parameters, setParameters] = useState({})
 
   const updateParameters = (newParams) => {
@@ -21,8 +21,29 @@ export default function ParameterInput({ onParametersChange }) {
     onParametersChange({ ...parameters, order: event.target.value })
   }
 
+  const handleVariableChange = (index, field, value) => {
+    const newVariables = variables.map((variable, i) => {
+      if (i === index) {
+        return { ...variable, [field]: value }
+      }
+      return variable
+    })
+    setVariables(newVariables)
+    updateParameters({ variables: newVariables })
+  }
+
+  const addVariable = () => {
+    setVariables([...variables, { name: "", value: "" }])
+  }
+
+  const removeVariable = (index) => {
+    const newVariables = variables.filter((_, i) => i !== index)
+    setVariables(newVariables)
+    updateParameters({ variables: newVariables })
+  }
+
   return (
-    <div className="p-4 border border-gray-200 rounded-lg">
+    <div>
       <div className="mb-4">
         <label
           htmlFor="order"
@@ -62,7 +83,7 @@ export default function ParameterInput({ onParametersChange }) {
         </label>
         <input
           type="text"
-          value={secondInitialCondition}
+          value={initialCondition}
           onChange={(e) => {
             setInitialCondition(e.target.value)
             updateParameters({ initialCondition: e.target.value })
@@ -81,7 +102,7 @@ export default function ParameterInput({ onParametersChange }) {
           </label>
           <input
             type="text"
-            value={initialCondition}
+            value={secondInitialCondition}
             onChange={(e) => {
               setSecondInitialCondition(e.target.value)
               updateParameters({ setSecondInitialCondition: e.target.value })
@@ -91,9 +112,44 @@ export default function ParameterInput({ onParametersChange }) {
           />
         </div>
       )}
-
-      {/* Ajouter d'autres champs pour les paramètres spécifiques à l'équation */}
-      {/* Exemple : coefficients, paramètres non linéaires, etc. */}
+      <p className="mb-2 text-sm font-medium text-gray-700">
+        Variable supplémentaire
+      </p>
+      {variables.map((variable, index) => (
+        <div
+          key={index}
+          className="flex items-center mb-4">
+          <input
+            type="text"
+            value={variable.name}
+            onChange={(e) =>
+              handleVariableChange(index, "name", e.target.value)
+            }
+            className="block w-1/3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            placeholder="Nom de la variable"
+          />
+          <span className="mx-2">=</span>
+          <input
+            type="text"
+            value={variable.value}
+            onChange={(e) =>
+              handleVariableChange(index, "value", e.target.value)
+            }
+            className="block w-1/3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            placeholder="Valeur"
+          />
+          <button
+            onClick={() => removeVariable(index)}
+            className="ml-2 text-red-500">
+            Supprimer
+          </button>
+        </div>
+      ))}
+      <button
+        onClick={addVariable}
+        className="p-2 bg-blue-500 text-white rounded-md">
+        Ajouter une variable
+      </button>
     </div>
   )
 }

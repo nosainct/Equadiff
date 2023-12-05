@@ -1,21 +1,48 @@
 "use client"
 
+import { useState } from "react"
+import ParameterInput from "./ParameterInput" // Assurez-vous que le chemin d'importation est correct
+
 export default function EquationInput() {
+  const [equation, setEquation] = useState("")
+  const [parameters, setParameters] = useState({})
+
+  const handleEquationChange = (newEquation) => {
+    setEquation(newEquation)
+  }
+
+  const handleParametersChange = (newParameters) => {
+    setParameters(newParameters)
+  }
+
+  const handleSubmit = () => {
+    const data = {
+      Equation: equation,
+      Parameter: parameters,
+    }
+    // Ici, vous pouvez effectuer le fetch pour envoyer 'data' à votre API
+    console.log(data) // Pour le debug, à remplacer par l'appel API
+  }
+
   return (
-    <div className="p-4 border border-gray-200 rounded-lg">
-      <label
-        htmlFor="equation"
-        className="block text-sm font-medium text-gray-700">
-        Enter Differential Equation
-      </label>
-      <input
-        type="text"
-        name="equation"
-        id="equation"
-        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-        placeholder="dy/dx = ..."
-      />
-      {/* Ajouter des options pour le type d'équation ici */}
+    <div>
+      <ParameterInput onParametersChange={handleParametersChange} />
+      <div className="flex m-auto mt-2 w-3/4">
+        <input
+          type="text"
+          name="equation"
+          id="equation"
+          value={equation}
+          onChange={(e) => handleEquationChange(e.target.value)}
+          className="w-full p-3 bg-indigo-500 border-2 border-blue-500 shadow-sm focus:border-blue-500 sm:text-sm rounded-l-lg "
+          placeholder="y'-2*x*y+y^2=5-x^2"
+        />
+        <button
+          onClick={handleSubmit}
+          className="bg-blue-500 p-2 text-white rounded-r-lg block w-1/4">
+          =
+        </button>
+      </div>
     </div>
   )
 }
