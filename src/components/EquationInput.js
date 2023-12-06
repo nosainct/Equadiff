@@ -15,14 +15,36 @@ export default function EquationInput() {
     setParameters(newParameters)
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    console.log("rentre dans le submit")
     const data = {
-      Equation: equation,
-      Parameter: parameters,
+      equation: equation,
+      initial_conditions: [parameters.initialCondition, parameters.secondInitialCondition], // Assurez-vous que cela correspond aux attentes de l'API
+      t_span: [0, 10],  // Exemple de plage temporelle, à ajuster selon vos besoins
+      t_eval: [0, 0.1, 0.2, 0.3,0.4,0.5,0.6,0.7,0.8,0.9, 10] // Points temporels pour l'évaluation, à générer selon vos besoins
     }
-    // Ici, vous pouvez effectuer le fetch pour envoyer 'data' à votre API
-    console.log(data) // Pour le debug, à remplacer par l'appel API
+  
+    try {
+      
+      const response = await fetch('http://localhost:3000/api/solver', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const result = await response.json();
+      console.log(result); // Ici, vous pouvez traiter la réponse, par exemple, en mettant à jour l'état pour afficher les graphiques
+    } catch (e) {
+      console.error("There was a problem with the fetch operation:", e);
+    }
   }
+  
 
   return (
     <div>

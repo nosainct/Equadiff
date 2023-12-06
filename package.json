@@ -11,9 +11,12 @@
   "dependencies": {
     "katex": "^0.16.9",
     "next": "14.0.3",
+    "numpy": "^0.0.1",
+    "python-shell": "^5.0.0",
     "react": "^18",
     "react-dom": "^18",
-    "react-latex-next": "^2.2.0"
+    "react-latex-next": "^2.2.0",
+    "scipy": "^0.1.4"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",
