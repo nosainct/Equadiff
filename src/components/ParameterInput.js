@@ -45,11 +45,11 @@ export default function ParameterInput({ onParametersChange }) {
   return (
     <div>
       <div className="mb-4">
-        <label
+        <h2
           htmlFor="order"
-          className="block text-sm font-medium text-gray-700">
+          className="block text-s font-medium text-gray-700 mb-4">
           Ordre de l'équation
-        </label>
+        </h2>
         <select
           id="order"
           value={order}
@@ -61,8 +61,11 @@ export default function ParameterInput({ onParametersChange }) {
       </div>
 
       <div className="mb-4">
+        <h2 className="block text-s font-medium text-gray-700 mb-4">
+          Condition initiale
+        </h2>
         <label className="block text-sm font-medium text-gray-700">
-          Nom de la Variable
+          Nom de la fonction
         </label>
         <select
           value={variableName}
@@ -112,9 +115,16 @@ export default function ParameterInput({ onParametersChange }) {
           />
         </div>
       )}
-      <p className="mb-2 text-sm font-medium text-gray-700">
-        Variable supplémentaire
-      </p>
+      <div className="flex gap-4 mb-4 items-center justify-items-start">
+        <h2 className="text-s font-medium text-gray-700">
+          Variable supplémentaire
+        </h2>
+        <button
+          onClick={addVariable}
+          className="p-2 bg-blue-500 text-white rounded-md">
+          Ajouter une variable
+        </button>
+      </div>
       {variables.map((variable, index) => (
         <div
           key={index}
@@ -145,11 +155,6 @@ export default function ParameterInput({ onParametersChange }) {
           </button>
         </div>
       ))}
-      <button
-        onClick={addVariable}
-        className="p-2 bg-blue-500 text-white rounded-md">
-        Ajouter une variable
-      </button>
     </div>
   )
 }

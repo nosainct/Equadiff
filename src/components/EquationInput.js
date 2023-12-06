@@ -56,7 +56,7 @@ export default function EquationInput() {
           id="equation"
           value={equation}
           onChange={(e) => handleEquationChange(e.target.value)}
-          className="w-full p-3 bg-indigo-500 border-2 border-blue-500 shadow-sm focus:border-blue-500 sm:text-sm rounded-l-lg "
+          className="w-full p-3 bg-blue-100 border-2 border-blue-500 shadow-sm focus:border-blue-500 sm:text-sm rounded-l-lg "
           placeholder="y'-2*x*y+y^2=5-x^2"
         />
         <button
